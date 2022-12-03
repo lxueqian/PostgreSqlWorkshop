@@ -364,18 +364,18 @@ module vmformigration 'modules/vmforpgmigration.json'={
     enableAcceleratedNetworking:true
     enableHotpatching:false
     location:'eastus'
-    networkInterfaceName:'vmforpgmigration552'
+    networkInterfaceName:'vmforpgmigra552'
     nicDeleteOption:'Detach'
     osDiskDeleteOption:'Delete'
     osDiskType:'Premium_LRS'
     patchMode:'AutomaticByOS'
     pipDeleteOption:'Detach'
-    publicIpAddressName:'vmforpgmigration-ip'
+    publicIpAddressName:'vmforpgmigra-ip'
     publicIpAddressSku:'Standard'
     publicIpAddressType:'Static'
     subnetName:'subnet-01'
-    virtualMachineComputerName:'vmforpgmigration'
-    virtualMachineName:'vmforPGmigration'
+    virtualMachineComputerName:'vmforpgmigra'
+    virtualMachineName:'vmforPGmigra'
     virtualMachineRG:resourceGroup().name
     virtualMachineSize:'Standard_D4s_v3'
     virtualNetworkId: '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/virtualNetworks/${hubVirtualNetworkName}'
