@@ -273,8 +273,8 @@ module vmformigration 'modules/vmforpgmigration.json'={
     publicIpAddressSku:'Standard'
     publicIpAddressType:'Static'
     subnetName:'subnet-01'
-    virtualMachineComputerName:'vmforpgmigration'
-    virtualMachineName:'vmforPGmigration'
+    virtualMachineComputerName:'vmforpgmigra'
+    virtualMachineName:'vmforpgmigra'
     virtualMachineRG:resourceGroup().name
     virtualMachineSize:'Standard_D4s_v3'
     virtualNetworkId: hubVirtualNetworkId
