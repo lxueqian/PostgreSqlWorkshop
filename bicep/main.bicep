@@ -4,6 +4,7 @@ param randomString string = uniqueString(subscription().subscriptionId, resource
 
 // Hub VNet
 param hubVirtualNetworkName string = 'hub-vnet'
+param hubVirtualNetworkId string = '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/virtualNetworks/${hubVirtualNetworkName}'
 param hubAddressPrefixes array = [
   '192.168.0.0/24'
 ]
@@ -276,7 +277,7 @@ module vmformigration 'modules/vmforpgmigration.json'={
     virtualMachineName:'vmforPGmigration'
     virtualMachineRG:resourceGroup().name
     virtualMachineSize:'Standard_D4s_v3'
-    virtualNetworkId: hubVnet
+    virtualNetworkId: hubVirtualNetworkId
   }
 }
 
@@ -292,7 +293,7 @@ module vmforjumpbox 'modules/vmforjumpbox.json'={
     networkInterfaceName: 'jumpbox781'
     enableAcceleratedNetworking: true
     subnetName: 'subnet-01'
-    virtualNetworkId: hubVnet
+    virtualNetworkId: hubVirtualNetworkId
     publicIpAddressName: 'jumpbox-ip'
     publicIpAddressType: 'Static'
     publicIpAddressSku: 'Standard'
