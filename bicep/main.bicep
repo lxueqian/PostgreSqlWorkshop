@@ -276,7 +276,7 @@ module vmformigration 'modules/vmforpgmigration.json'={
     virtualMachineName:'vmforPGmigration'
     virtualMachineRG:resourceGroup().name
     virtualMachineSize:'Standard_D4s_v3'
-    virtualNetworkId: hubVirtualNetworkName
+    virtualNetworkId: hubVnet
   }
 }
 
@@ -292,7 +292,7 @@ module vmforjumpbox 'modules/vmforjumpbox.json'={
     networkInterfaceName: 'jumpbox781'
     enableAcceleratedNetworking: true
     subnetName: 'subnet-01'
-    virtualNetworkId: hubVirtualNetworkName
+    virtualNetworkId: hubVnet
     publicIpAddressName: 'jumpbox-ip'
     publicIpAddressType: 'Static'
     publicIpAddressSku: 'Standard'
