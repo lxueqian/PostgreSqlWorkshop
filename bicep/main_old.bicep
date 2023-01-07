@@ -62,6 +62,20 @@ param spokeAllowVirtualNetworkAccess bool = true
 param spokeUseRemoteGateways bool = false
 param spokePeeringName string = 'peering-hub'
 
+// Virtual Machine Nic
+param isLoadBalanced string =  'false'
+param subnetName string = 'subnet-01'
+param vnetName string = hubVirtualNetworkName
+param enableAcceleratedNetworking bool = true
+param enableIPForwarding bool = false
+param privateIPAddress string = '192.168.0.4'
+param privateIPAllocationMethod string = 'Static'
+
+// Public IP Address
+
+param publicIpAddressSkuName string = 'Standard'
+param publicIpAddressSkuTier string = 'Regional'
+param publicIPAllocationMethod string = 'Static'
 
 // Network Security Group
 param nsgName string = 'subnet-01-nsg'
@@ -84,11 +98,29 @@ param securityRules array = [
   }
 ]
 
-// Virtual Machine-jumpbox
+// Virtual Machine
 param vmAdminUsername string 
 @secure()
 param vmAdminPassword string
+param imageOffer string = 'CentOS'
+param imagePublisher string = 'OpenLogic'
+param imageSku string = '8_5-gen2'
+param osType string = 'Linux'
+param storageSku string = 'Premium_LRS'
 param vmName string = 'jumpbox'
+param vmSize string = 'Standard_D2s_v3'
+param zone string = ''
+
+// Virtual Machine Extension
+param extensionName string = 'installCustomScript'
+param publisher string = 'Microsoft.Azure.Extensions'
+param type string = 'CustomScript'
+param typeHandlerVersion string = '2.0'
+param autoUpgradeMinorVersion bool = true
+param enableAutomaticUpgrade bool = false
+param settings object = {
+  script : 'c2VkIC1pICdzL21pcnJvcmxpc3QvI21pcnJvcmxpc3QvZycgL2V0Yy95dW0ucmVwb3MuZC9DZW50T1MtKg0Kc2VkIC1pICdzfGJhc2V1cmw9aHR0cDovL21pcnJvci5jZW50b3Mub3JnfGJhc2V1cmw9aHR0cDovL3ZhdWx0LmNlbnRvcy5vcmd8ZycgL2V0Yy95dW0ucmVwb3MuZC9DZW50T1MtKg0KeXVtIHVwZGF0ZSAteQ0KeXVtIGluc3RhbGwgYmluZCBiaW5kLXV0aWxzIC15DQpybSAtcmYgL2V0Yy9kZWZhdWx0L2JpbmQ5DQpjYXQgPiAvZXRjL2RlZmF1bHQvYmluZDkgPDwgRU9GMQ0KT1BUSU9OUz0iLXUgYmluZCAtNCINCkVPRjENCnJtIC1yZiAvZXRjL25hbWVkLmNvbmYNCmNhdCA+IC9ldGMvbmFtZWQuY29uZiA8PCBFT0YxDQphY2wgInRydXN0ZWQiIHsNCiAgICAgICAgbG9jYWxob3N0Ow0KICAgICAgICBhbnk7DQp9Ow0Kb3B0aW9ucyB7DQogICAgICAgIGRpcmVjdG9yeSAiL3Zhci9uYW1lZCI7DQoNCiAgICAgICAgLy8gSWYgdGhlcmUgaXMgYSBmaXJld2FsbCBiZXR3ZWVuIHlvdSBhbmQgbmFtZXNlcnZlcnMgeW91IHdhbnQNCiAgICAgICAgLy8gdG8gdGFsayB0bywgeW91IG1heSBuZWVkIHRvIGZpeCB0aGUgZmlyZXdhbGwgdG8gYWxsb3cgbXVsdGlwbGUNCiAgICAgICAgLy8gcG9ydHMgdG8gdGFsay4gIFNlZSBodHRwOi8vd3d3LmtiLmNlcnQub3JnL3Z1bHMvaWQvODAwMTEzDQoNCiAgICAgICAgLy8gSWYgeW91ciBJU1AgcHJvdmlkZWQgb25lIG9yIG1vcmUgSVAgYWRkcmVzc2VzIGZvciBzdGFibGUNCiAgICAgICAgLy8gbmFtZXNlcnZlcnMsIHlvdSBwcm9iYWJseSB3YW50IHRvIHVzZSB0aGVtIGFzIGZvcndhcmRlcnMuDQogICAgICAgIC8vIFVuY29tbWVudCB0aGUgZm9sbG93aW5nIGJsb2NrLCBhbmQgaW5zZXJ0IHRoZSBhZGRyZXNzZXMgcmVwbGFjaW5nDQogICAgICAgIC8vIHRoZSBhbGwtMCdzIHBsYWNlaG9sZGVyLg0KDQogICAgICAgIC8vIGZvcndhcmRlcnMgew0KICAgICAgICAvLyAgICAgIDAuMC4wLjA7DQogICAgICAgIC8vIH07DQoNCiAgICAgICAgLy89PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCiAgICAgICAgLy8gSWYgQklORCBsb2dzIGVycm9yIG1lc3NhZ2VzIGFib3V0IHRoZSByb290IGtleSBiZWluZyBleHBpcmVkLA0KICAgICAgICAvLyB5b3Ugd2lsbCBuZWVkIHRvIHVwZGF0ZSB5b3VyIGtleXMuICBTZWUgaHR0cHM6Ly93d3cuaXNjLm9yZy9iaW5kLWtleXMNCiAgICAgICAgLy89PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCiAgICAgICAgZG5zc2VjLXZhbGlkYXRpb24gYXV0bzsNCg0KICAgICAgICBhdXRoLW54ZG9tYWluIG5vOyAgICAjIGNvbmZvcm0gdG8gUkZDMTAzNQ0KICAgICAgICBsaXN0ZW4tb24tdjYgeyBhbnk7IH07DQogICAgICAgIHJlY3Vyc2lvbiB5ZXM7DQogICAgICAgIGFsbG93LXJlY3Vyc2lvbiB7IHRydXN0ZWQ7IH07DQogICAgICAgIGxpc3Rlbi1vbiB7IGxvY2FsaG9zdDsgfTsNCiAgICAgICAgYWxsb3ctdHJhbnNmZXIgeyBub25lOyB9Ow0KICAgICAgICBmb3J3YXJkZXJzIHsNCiAgICAgICAgICAgICAgICAxNjguNjMuMTI5LjE2Ow0KICAgICAgICB9Ow0KfTsNCkVPRjENCnN5c3RlbWN0bCByZXN0YXJ0IG5hbWVk'
+}
 
 // Private DNS Zone
 param privateDnsZoneName string = 'private.postgres.database.azure.com'
@@ -198,6 +230,74 @@ module spokePeering './modules/virtualNetwork.peering.bicep' = {
   }
 }
 
+module publicIp 'modules/publicip.bicep' = {
+  name: 'publicIpDeployment'
+  params: {
+    location: location
+    name: vmName
+    skuName: publicIpAddressSkuName
+    skuTier: publicIpAddressSkuTier
+    publicIPAllocationMethod: publicIPAllocationMethod
+  }
+}
+
+module dnsNic './modules/networkinterface.bicep' = {
+  dependsOn: [
+    spokeVnet
+    publicIp
+  ]
+  name: 'dnsNicDeployment'
+  params: {
+    location: location
+    isLoadBalanced: isLoadBalanced
+    subnetName: subnetName
+    vmName: vmName
+    vnetName: vnetName
+    enableAcceleratedNetworking: enableAcceleratedNetworking
+    enableIPForwarding: enableIPForwarding
+    privateIPAddress: privateIPAddress
+    privateIPAllocationMethod: privateIPAllocationMethod
+    publicIpAddressName: '${vmName}-ip'
+  }
+}
+
+module dnsVM './modules/virtualmachine.bicep' = {
+  dependsOn: [
+    dnsNic
+  ]
+  name: 'dnsVmDeployment'
+  params: {
+    adminPassword: vmAdminPassword
+    adminUsername: vmAdminUsername
+    imageOffer: imageOffer
+    imagePublisher: imagePublisher
+    imageSku: imageSku
+    osType: osType
+    storageSku: storageSku
+    vmName: vmName
+    vmSize: vmSize
+    zone: zone
+  }
+}
+
+module dnsExtension './modules/virtualmachine.extension.bicep' = {
+  dependsOn: [
+    dnsVM
+  ]
+  name: 'dnsExtensionDeployment'
+  params: {
+    location: location
+    autoUpgradeMinorVersion: autoUpgradeMinorVersion
+    enableAutomaticUpgrade: enableAutomaticUpgrade
+    extensionName: extensionName
+    publisher: publisher
+    type: type
+    typeHandlerVersion: typeHandlerVersion
+    vmName: vmName
+    settings: settings
+  }
+}
+
 module dnsZone './modules/privatednszone.bicep' = {
   dependsOn: [
     hubVnet
@@ -222,7 +322,7 @@ module storage 'modules/storageAccount.bicep' = {
 
 module postgreSqlFlex './modules/postgresql.fexible.bicep' = {
   dependsOn: [
-    // dnsExtension
+    dnsExtension
     spokeVnet
     dnsZone
     storage
@@ -253,7 +353,9 @@ module postgreSqlFlex './modules/postgresql.fexible.bicep' = {
 
 module vmformigration 'modules/vmforpgmigration.json'={
   dependsOn: [
+    dnsExtension
     hubVnet
+    dnsNic
   ]
   name: 'VMforMigrationDeployment'
   params: {
@@ -262,51 +364,25 @@ module vmformigration 'modules/vmforpgmigration.json'={
     enableAcceleratedNetworking:true
     enableHotpatching:false
     location:'eastus'
-    networkInterfaceName:'vmforpgmigration552'
+    networkInterfaceName:'vmforpgmigra552'
     nicDeleteOption:'Detach'
     osDiskDeleteOption:'Delete'
     osDiskType:'Premium_LRS'
     patchMode:'AutomaticByOS'
     pipDeleteOption:'Detach'
-    publicIpAddressName:'vmforpgmigration-ip'
+    publicIpAddressName:'vmforpgmigra-ip'
     publicIpAddressSku:'Standard'
     publicIpAddressType:'Static'
     subnetName:'subnet-01'
-    virtualMachineComputerName:'vmforpgmigration'
-    virtualMachineName:'vmforPGmigration'
+    virtualMachineComputerName:'vmforpgmigra'
+    virtualMachineName:'vmforPGmigra'
     virtualMachineRG:resourceGroup().name
     virtualMachineSize:'Standard_D4s_v3'
-    virtualNetworkId: hubVirtualNetworkName
-  }
-}
-
-module vmforjumpbox 'modules/vmforjumpbox.json'={
-  dependsOn: [
-    hubVnet
-  ]
-  name: 'VMforJumpboxDeployment'
-  params: {
-    adminPassword: vmAdminPassword
-    adminUsername: vmAdminUsername
-    location: 'eastus'
-    networkInterfaceName: 'jumpbox781'
-    enableAcceleratedNetworking: true
-    subnetName: 'subnet-01'
-    virtualNetworkId: hubVirtualNetworkName
-    publicIpAddressName: 'jumpbox-ip'
-    publicIpAddressType: 'Static'
-    publicIpAddressSku: 'Standard'
-    pipDeleteOption: 'Detach'
-    virtualMachineName: vmName
-    virtualMachineComputerName: vmName
-    virtualMachineRG: resourceGroup().name
-    osDiskType: 'Premium_LRS'
-    osDiskDeleteOption: 'Delete'
-    virtualMachineSize: 'Standard_D2s_v3'
-    nicDeleteOption: 'Detach'    
+    virtualNetworkId: '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Network/virtualNetworks/${hubVirtualNetworkName}'
   }
 }
 
 output vmUsername string = vmAdminUsername
+output vmPublicIp string = publicIp.outputs.publicIpAddress
 output postgreSqlUsername string = postgreSqlAdministratorLogin
 output postgreSqlFqdn string = postgreSqlFlex.outputs.fqdn
