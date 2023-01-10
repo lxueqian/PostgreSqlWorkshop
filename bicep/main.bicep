@@ -262,7 +262,7 @@ module vmformigration 'modules/vmforpgmigration.json'={
     adminUsername:vmformigrationAdminUsername
     enableAcceleratedNetworking:true
     enableHotpatching:false
-    location:'eastus'
+    location: location
     networkInterfaceName:'vmforpgmigration552'
     nicDeleteOption:'Detach'
     osDiskDeleteOption:'Delete'
@@ -289,7 +289,7 @@ module vmforjumpbox 'modules/vmforjumpbox.json'={
   params: {
     adminPassword: vmAdminPassword
     adminUsername: vmAdminUsername
-    location: 'eastus'
+    location: location
     networkInterfaceName: 'jumpbox781'
     enableAcceleratedNetworking: true
     subnetName: 'subnet-01'
